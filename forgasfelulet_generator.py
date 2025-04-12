@@ -1,24 +1,19 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, RadioButtons
+from objects.sin import Sin
+from objects.half_circle import HalfCircle
+from objects.parabolic import Parabolic
+from objects.linear import Linear
 
 # Profilgörbék kiszámítása
 def profileCurve(y, curve_type, scale=1.0, offset=1.5):
-    if curve_type == 'szinusz':
-        return scale * np.sin(y) + offset
-    elif curve_type == 'parabola':
-        return scale * y**2 + offset
-    elif curve_type == 'lineáris':
-        return scale * y + offset
-    elif curve_type == 'félkör':
-        return scale * np.sqrt(np.clip(1 - (y - 1)**2, 0, None)) + offset
-    else:
-        return np.ones_like(y)
+    return curve_type.profile_curve(scale, offset, y)
 
 # Forgásfelület előállítása
 def generateSurface(curve_type, scale, offset):
     y_vals = np.linspace(0, np.pi, 100)
-    if curve_type == 'félkör':
+    if isinstance(curve_type, HalfCircle):
         y_vals = np.linspace(0, 2, 100)
     theta_vals = np.linspace(0, 2 * np.pi, 100)
     Y, Theta = np.meshgrid(y_vals, theta_vals)
@@ -44,7 +39,7 @@ ax = fig.add_subplot(111, projection='3d')
 plt.subplots_adjust(left=0.3, bottom=0.25)
 
 # Kiinduló paraméterek
-init_curve = 'szinusz'
+init_curve = Sin()
 init_scale = 1.0
 init_offset = 1.5
 
@@ -54,7 +49,7 @@ surface = ax.plot_surface(X, Y, Z, cmap='plasma', edgecolor='k', linewidth=0.1)
 ax.set_xlabel("X")
 ax.set_ylabel("Y")
 ax.set_zlabel("Z")
-ax.set_title(f"Forgásfelület - {init_curve}")
+ax.set_title(f"Forgásfelület - {init_curve.get_name()}")
 
 f_y = profileCurve(y_vals, init_curve, init_scale, init_offset)
 volume = calcVolume(f_y, y_vals)
@@ -75,12 +70,25 @@ slider_offset = Slider(ax_offset, 'Eltolás', 0.0, 3.0, valinit=init_offset)
 
 # Profilgörbe választó rádió gombok létrehozása
 ax_radio = plt.axes([0.05, 0.4, 0.2, 0.25])
-radio = RadioButtons(ax_radio, ['szinusz', 'parabola', 'lineáris', 'félkör'], active=0)
+radio = RadioButtons(ax_radio, ['sin', 'parabolic', 'linear', 'half_circle'], active=0)
+
+# Görbe név osztállyá alakítása
+def get_curve_class(curve_name):
+    if curve_name == 'sin':
+        return Sin()
+    elif curve_name == 'parabolic':
+        return Parabolic()
+    elif curve_name == 'linear':
+        return Linear()
+    elif curve_name == 'half_circle':
+        return HalfCircle()
+    else:
+        raise ValueError("Ismeretlen görbe típus")
 
 # Ábra frissítő eljárás
 def update(val=None):
     ax.clear()
-    curve_type = radio.value_selected
+    curve_type = get_curve_class(radio.value_selected)
     scale = slider_scale.val
     offset = slider_offset.val
 
@@ -90,7 +98,7 @@ def update(val=None):
     ax.set_xlabel("X")
     ax.set_ylabel("Y")
     ax.set_zlabel("Z")
-    ax.set_title(f"Forgásfelület - {curve_type}")
+    ax.set_title(f"Forgásfelület - {curve_type.get_name()}")
 
     f_y = profileCurve(y_vals, curve_type, scale, offset)
     volume = calcVolume(f_y, y_vals)
