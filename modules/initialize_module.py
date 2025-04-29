@@ -21,8 +21,8 @@ class InitializeModule:
         self.init_scale = 1.0  # Alapértelmezett skála
         self.init_offset = 1.5  # Alapértelmezett eltolás
         # Forgásfelület generálása az alapértelmezett paraméterekkel
-        X, Y, Z, y_vals = generate_surface_of_curve(self.init_curve, self.init_scale, self.init_offset)
-        self.surface = self.ax.plot_surface(X, Y, Z, cmap='plasma', edgecolor='k', linewidth=0.1)  # Forgásfelület kirajzolása
+        self.X, self.Y, self.Z, self.y_vals = generate_surface_of_curve(self.init_curve, self.init_scale, self.init_offset)
+        self.surface = self.ax.plot_surface(self.X, self.Y, self.Z, cmap='gray', edgecolor='none', linewidth=0.1)  # Forgásfelület kirajzolása
 
         # Tengelyek és cím beállítása
         self.ax.set_xlabel("X")  # X tengely címkéje
@@ -31,9 +31,9 @@ class InitializeModule:
         self.ax.set_title(f"Forgásfelület - {self.init_curve.get_name()}")  # Ábra címe a görbe nevével
 
         # A görbe profiljának kiszámítása
-        f_y = self.init_curve.calc_profile(self.init_scale, self.init_offset, y_vals)
-        self.volume = calc_volume(f_y, y_vals)  # Térfogat kiszámítása
-        self.surface_area = calc_surface(f_y, y_vals)  # Felszín kiszámítása
+        self.f_y = self.init_curve.calc_profile(self.init_scale, self.init_offset, self.y_vals)
+        self.volume = calc_volume(self.f_y, self.y_vals)  # Térfogat kiszámítása
+        self.surface_area = calc_surface(self.f_y, self.y_vals)  # Felszín kiszámítása
 
         # Térfogat és felszín szöveg létrehozása a felületen
         self.volume_display = self.fig.text(0.1, 0.92, f"Térfogat ≈ {self.volume:.3f} egység³", fontsize=12, weight="bold", color="darkblue")
@@ -43,8 +43,8 @@ class InitializeModule:
         self.ax_scale = plt.axes([0.3, 0.15, 0.6, 0.03])  # Skála csúszka helye
         self.ax_offset = plt.axes([0.3, 0.1, 0.6, 0.03])  # Eltolás csúszka helye
 
-        self.slider_scale = Slider(self.ax_scale, 'Skála', 0.1, 3.0, valinit=self.init_scale)  # Skála csúszka létrehozása
-        self.slider_offset = Slider(self.ax_offset, 'Eltolás', 0.0, 3.0, valinit=self.init_offset)  # Eltolás csúszka létrehozása
+        self.slider_scale = Slider(self.ax_scale, 'Skála', 0.0, 3.0, valinit=self.init_scale, valstep=0.1)  # Skála csúszka létrehozása
+        self.slider_offset = Slider(self.ax_offset, 'Eltolás', 0.0, 3.0, valinit=self.init_offset, valstep=0.1)  # Eltolás csúszka létrehozása
 
         # Profilgörbe választó rádió gombok létrehozása
         self.ax_radio = plt.axes([0.05, 0.4, 0.2, 0.25])  # Rádió gombok helye

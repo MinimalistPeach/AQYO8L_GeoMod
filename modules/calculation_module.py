@@ -1,5 +1,6 @@
 import numpy as np 
 
+from functools import lru_cache
 from objects.half_circle_curve import HalfCircleCurve as HalfCircle
 
 
@@ -32,6 +33,12 @@ def calc_surface(f_y, y_vals):
     integrand = f_y * np.sqrt(1 + df_dy**2)
     return 2 * np.pi * np.trapz(integrand, y_vals)
 
+@lru_cache(maxsize=None)
+def cached_linspace(start, stop, num):
+    """
+    Gyorsított linspace függvény, amely a memóriában tárolja az eredményeket.
+    """
+    return np.linspace(start, stop, num)
 
 def generate_surface_of_curve(curve_type, scale, offset):
     """
@@ -45,10 +52,10 @@ def generate_surface_of_curve(curve_type, scale, offset):
     Returns:
         tuple: Forgásfelület koordinátái (X, Y, Z) és az y értékek (y_vals).
     """
-    y_vals = np.linspace(0, np.pi, 100)  # Alapértelmezett y értékek előállítása
+    y_vals = cached_linspace(0, np.pi, 15)  # Alapértelmezett y értékek előállítása
     if isinstance(curve_type, HalfCircle):  # Ha a görbe félkör, más tartományt használunk
-        y_vals = np.linspace(0, 2, 100)
-    theta_vals = np.linspace(0, 2 * np.pi, 100)  # Forgásszög értékek generálása
+        y_vals = cached_linspace(0, 2, 15)
+    theta_vals = cached_linspace(0, 2 * np.pi, 15)  # Forgásszög értékek generálása
     Y, Theta = np.meshgrid(y_vals, theta_vals)  # Rács generálása a forgáshoz
 
     # A görbe profiljának kiszámítása a megadott skála és eltolás alapján

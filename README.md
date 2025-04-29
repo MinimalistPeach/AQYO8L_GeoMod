@@ -31,7 +31,23 @@ Ez a beadandó egy interaktív, paraméterezhető **forgásfelület generátort*
 
     - A test körkörös nagyítása és kicsinyítése az eltolás változtatásával
 
+    - Generált test felszínének és térfogatának kiszámítása
+
 ---
+
+### Modulok
+
+    - calculation_module: Számításokért felelős modul (felszín, térfogat, görbe alakzata)
+    - curve_class_module: Görbe név alapján a megfelelő osztály példányosításáért felelős modul
+    - drawing_module: Kirajzolásért felelős modul
+    - initialize_module: Kezdeti érték beállító modul
+    - optimalization_module: Kisebb optimalizálásokért felelős modul, a görbe kirajzolásának korábbi változóit menti
+
+---
+
+### Megjelenítés optimalizálása
+A megjelenítés optimalizálása érdekében létrehoztam egy <i>cached_linspace</i> metódust, amely a numpy-ba épített linspace metódust gyorsítja fel korábbi értékek memóriában tárolásával, ezzel levéve a terhet a CPU-ról. 
+Ezenkívül csökkentett számú alakzatokból kerülnek kirajzolásra a görbék. Ennek hatására drasztikus teljesítménybeli változás történt pozitív irányba.
 
 ### Követelmények
 
