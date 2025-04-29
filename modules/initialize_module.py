@@ -3,11 +3,12 @@ from matplotlib.widgets import Slider, RadioButtons
 
 from objects.sin_curve import SinCurve as Sin
 from modules.calculation_module import calc_volume, calc_surface
+from modules.calculation_module import generate_surface_of_curve
 
 class InitializeModule:
 
 
-    def __init__(self, DrawingModule):
+    def __init__(self):
         """
         Inicializálja a forgásfelület generálásához szükséges modulokat és elemeket.
         """
@@ -20,7 +21,7 @@ class InitializeModule:
         self.init_scale = 1.0  # Alapértelmezett skála
         self.init_offset = 1.5  # Alapértelmezett eltolás
         # Forgásfelület generálása az alapértelmezett paraméterekkel
-        X, Y, Z, y_vals = DrawingModule.generate_surface(self.init_curve, self.init_scale, self.init_offset)
+        X, Y, Z, y_vals = generate_surface_of_curve(self.init_curve, self.init_scale, self.init_offset)
         self.surface = self.ax.plot_surface(X, Y, Z, cmap='plasma', edgecolor='k', linewidth=0.1)  # Forgásfelület kirajzolása
 
         # Tengelyek és cím beállítása
