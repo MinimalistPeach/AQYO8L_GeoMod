@@ -1,10 +1,10 @@
 import matplotlib.pyplot as plt
 
-from modules.drawing_module import DrawingModule
+from modules.drawing import Drawing
 
 
  # Attribútumok lekérése
-drawing_module = DrawingModule()  # Kirajzoló modul példányosítása
+drawing_module = Drawing()  # Kirajzoló modul példányosítása
 
 
 # Csúszkák és rádió gombok eseménykezelőinek beállítása

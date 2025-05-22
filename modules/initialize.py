@@ -1,12 +1,11 @@
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, RadioButtons 
 
-from objects.sin_curve import SinCurve as Sin
-from modules.calculation_module import calc_volume, calc_surface
-from modules.calculation_module import generate_surface_of_curve
+from solid_shapes.sin_curve import SinCurve as Sin
+from modules.calculation import calc_volume, calc_surface
+from modules.calculation import generate_surface_of_curve
 
-class InitializeModule:
-
+class Initialize:
 
     def __init__(self):
         """

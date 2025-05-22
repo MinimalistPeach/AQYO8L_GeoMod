@@ -1,7 +1,7 @@
 import numpy as np 
 
 from functools import lru_cache
-from objects.half_circle_curve import HalfCircleCurve as HalfCircle
+from solid_shapes.half_circle_curve import HalfCircleCurve as HalfCircle
 
 
 def calc_volume(f_y, y_vals):

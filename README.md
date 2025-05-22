@@ -51,7 +51,7 @@ Ezenkívül csökkentett számú alakzatokból kerülnek kirajzolásra a görbé
 
 ### Követelmények
 
-- Python 3.X
+- Python 3.11
 - `numpy`
 - `matplotlib`
 

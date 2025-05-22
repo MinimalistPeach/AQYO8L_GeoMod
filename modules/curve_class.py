@@ -1,7 +1,7 @@
-from objects.sin_curve import SinCurve as Sin
-from objects.half_circle_curve import HalfCircleCurve as HalfCircle
-from objects.parabolic_curve import ParabolicCurve as Parabolic
-from objects.linear_curve import LinearCurve as Linear
+from solid_shapes.sin_curve import SinCurve as Sin
+from solid_shapes.half_circle_curve import HalfCircleCurve as HalfCircle
+from solid_shapes.parabolic_curve import ParabolicCurve as Parabolic
+from solid_shapes.linear_curve import LinearCurve as Linear
 
 
 def get_curve_class(curve_name):

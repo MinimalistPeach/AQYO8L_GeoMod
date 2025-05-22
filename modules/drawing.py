@@ -1,12 +1,12 @@
 import time
 
-from modules.calculation_module import calc_volume, calc_surface
-from modules.curve_class_module import get_curve_class
-from modules.initialize_module import InitializeModule
-from modules.calculation_module import generate_surface_of_curve
-from modules.optimalization_module import OptimalizationModule
+from modules.calculation import calc_volume, calc_surface
+from modules.curve_class import get_curve_class
+from modules.initialize import Initialize
+from modules.calculation import generate_surface_of_curve
+from modules.optimalization import Optimalization
 
-class DrawingModule:
+class Drawing:
     """
     A forgásfelület generálásáért és megjelenítéséért felelős modul.
     """
@@ -20,10 +20,10 @@ class DrawingModule:
             ax: matplotlib.axes._axes.Axes3D - A 3D tengelyek objektuma.
         """
 
-        initialize_module = InitializeModule()  # Inicializáló modul példányosítása
+        initialize_module = Initialize()  # Inicializáló modul példányosítása
         fig, ax, radio, slider_scale, slider_offset, volume_display, surface_display = initialize_module.get_attributes() 
 
-        self.optimization_module = OptimalizationModule(initialize_module.init_curve, initialize_module.init_scale, 
+        self.optimization_module = Optimalization(initialize_module.init_curve, initialize_module.init_scale, 
                                                         initialize_module.init_offset, initialize_module.X, initialize_module.Y, initialize_module.Z, initialize_module.y_vals)  # Optimalizációs modul példányosítása
 
         self.fig = fig
@@ -56,7 +56,7 @@ class DrawingModule:
             self.ax.clear()  # Tengelyek törlése
             X, Y, Z, y_vals = generate_surface_of_curve(curve_type, scale, offset)
             self.ax.plot_surface(X, Y, Z, cmap='gray', edgecolor='none', linewidth=0.1)  # Új forgásfelület kirajzolása
-            self.optimization_module = OptimalizationModule(curve_type, scale, offset, X, Y, Z, y_vals)  # Optimalizációs modul új példányosítása
+            self.optimization_module = Optimalization(curve_type, scale, offset, X, Y, Z, y_vals)  # Optimalizációs modul új példányosítása
         else:
             X, Y, Z, y_vals = self.optimization_module.X, self.optimization_module.Y, self.optimization_module.Z, self.optimization_module.y_vals
             self.ax.plot_surface(X, Y, Z, cmap='gray', edgecolor='none', linewidth=0.1)  # Meglévő forgásfelület kirajzolása

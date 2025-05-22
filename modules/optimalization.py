@@ -1,6 +1,6 @@
-import objects.sin_curve as Sin
+import solid_shapes.sin_curve as Sin
 
-class OptimalizationModule:
+class Optimalization:
     def __init__(self, curve_type, scale, offset, X, Y, Z, y_vals):
         """
         Inicializálja az optimalizációs modult.

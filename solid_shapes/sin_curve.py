@@ -1,4 +1,4 @@
-from objects.curve import Curve
+from solid_shapes.curve import Curve
 import numpy as np
 
 class SinCurve(Curve):
